@@ -20,7 +20,7 @@ The Secant Method is a numerical algorithm for finding roots (zeros) of a functi
 - **Error Handling**: Robust error handling for invalid inputs and mathematical errors
 - **Customizable Parameters**: Adjustable tolerance and maximum iterations
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 dev/
