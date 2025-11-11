@@ -81,7 +81,7 @@ def secant_method(f, x0, x1, tol=1e-6, max_iter=100):
     all_iteration_data = []
 
     # Calculate reasonable search bounds based on starting points
-    max_distance_factor = 8  # Balanced search range for different function types
+    max_distance_factor = 8
 
     # Try the original starting points first
     try:
@@ -103,13 +103,12 @@ def secant_method(f, x0, x1, tol=1e-6, max_iter=100):
             all_roots.append(root)
             all_iteration_data.extend(iteration_data)
     except Exception:
-        # If original starting points fail, we'll try other points below
         pass
 
     # Generate systematic starting point pairs to search for more roots
     # Use a more comprehensive search range for polynomials
     base_range = max(abs(x0), abs(x1), 3)
-    search_range = min(base_range * 3, 15)  # Larger search range for polynomials
+    search_range = min(base_range * 3, 15)
 
     # Create more systematic intervals to catch all roots
     num_intervals = 12

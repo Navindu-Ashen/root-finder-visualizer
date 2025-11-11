@@ -1,225 +1,158 @@
-# Secant Method Root Finding Application
+# Numerical Methods for Root Finding
 
-A modern web application that implements the Secant Method for finding roots of mathematical functions. The application consists of a Python FastAPI backend that performs the mathematical calculations and a Next.js React frontend that provides an intuitive user interface.
+A collection of interactive web applications implementing numerical methods to calculate and visualize root points of non-linear equations.
 
 ## Overview
 
-The Secant Method is a numerical algorithm for finding roots (zeros) of a function. Unlike the Newton-Raphson method, it doesn't require the derivative of the function, making it more versatile for complex functions. This application can find single or multiple roots depending on the function and starting points provided.
+This repository contains implementations of three fundamental numerical methods for finding roots of non-linear equations:
 
-## Features
+- **Bisection Method** - A bracketing method that repeatedly bisects an interval and selects a subinterval where a root exists
+- **Newton-Raphson Method** - An iterative method using tangent lines to approximate roots with quadratic convergence
+- **Secant Method** - Similar to Newton-Raphson but uses secant lines instead of tangent lines, eliminating the need for derivative calculations
 
-- **Interactive Web Interface**: User-friendly frontend built with Next.js and React
-- **Multiple Root Detection**: Automatically searches for and finds multiple roots when they exist
-- **Comprehensive Function Support**: Supports a wide range of mathematical functions including:
-  - Basic arithmetic operations
-  - Trigonometric functions (sin, cos, tan, etc.)
-  - Hyperbolic functions (sinh, cosh, tanh, etc.)
-  - Exponential and logarithmic functions
-  - Mathematical constants (π, e)
-- **Iteration Visualization**: View step-by-step iteration data
-- **Error Handling**: Robust error handling for invalid inputs and mathematical errors
-- **Customizable Parameters**: Adjustable tolerance and maximum iterations
+Each method includes a web-based interface for visualization and interactive exploration of the root-finding process.
 
 ## Project Structure
 
 ```
-dev/
-├── backend/               # Python FastAPI backend
-│   ├── main.py           # FastAPI application and API endpoints
-│   ├── secant.py         # Secant method implementation
-│   └── requirements.txt  # Python dependencies
-├── frontend/             # Next.js React frontend
-│   ├── app/              # Next.js app directory
-│   ├── components/       # React components
-│   ├── lib/              # Utility libraries
-│   ├── public/           # Static assets
-│   └── package.json      # Node.js dependencies
-└── README.md            # This file
+Codebase/
+├── Bisection_Method/
+│   └── main.py
+├── NewtonRaphson_Method/
+│   ├── backend/
+│   └── frontend/
+└── Secant_Method/
+    ├── backend/
+    └── frontend/
 ```
 
-## Prerequisites
+## Methods Description
 
-### Backend Requirements
+### Bisection Method
+
+The Bisection Method is a simple and reliable root-finding algorithm that works by:
+1. Starting with an interval [a, b] where f(a) and f(b) have opposite signs
+2. Computing the midpoint c = (a + b) / 2
+3. Replacing either a or b with c based on the sign of f(c)
+4. Repeating until convergence
+
+**Advantages:**
+- Always converges for continuous functions
+- Simple to implement and understand
+- Guaranteed to find a root if one exists in the interval
+
+**Disadvantages:**
+- Slower convergence compared to other methods
+- Requires an initial interval where the function changes sign
+
+### Newton-Raphson Method
+
+The Newton-Raphson Method uses the derivative of the function to find successively better approximations:
+1. Start with an initial guess x₀
+2. Compute x_{n+1} = x_n - f(x_n) / f'(x_n)
+3. Repeat until convergence
+
+**Advantages:**
+- Fast convergence (quadratic near the root)
+- Requires only one initial guess
+
+**Disadvantages:**
+- Requires the derivative of the function
+- May not converge if the initial guess is poor
+- Can fail if the derivative is zero
+
+### Secant Method
+
+The Secant Method approximates the derivative using finite differences:
+1. Start with two initial guesses x₀ and x₁
+2. Compute x_{n+1} = x_n - f(x_n) * (x_n - x_{n-1}) / (f(x_n) - f(x_{n-1}))
+3. Repeat until convergence
+
+**Advantages:**
+- Does not require derivative calculation
+- Faster than bisection method
+- Suitable for functions where derivatives are difficult to compute
+
+**Disadvantages:**
+- May not converge for poor initial guesses
+- Slightly slower convergence than Newton-Raphson
+
+## Technologies Used
+
+- **Python** - Core implementation language
+- **FastAPI / FastHTML** - Backend framework for web applications
+- **Chart.js** - Visualization of numerical results
+- **Tailwind CSS** - Styling for web interfaces
+- **SymPy** - Symbolic mathematics for function parsing
+- **NumPy** - Numerical computations
+
+## Getting Started
+
+### Prerequisites
+
 - Python 3.8 or higher
-- pip (Python package installer)
+- pip or uv package manager
 
-### Frontend Requirements
-- Node.js 18 or higher
-- npm or yarn package manager
+### Installation
 
-## Installation
+Each method has its own directory with separate installation instructions. Navigate to the specific method directory and follow the setup instructions in its respective README file.
 
-### 1. Backend Setup
+#### General Steps:
 
-#### Navigate to the backend directory:
+1. Clone the repository
 ```bash
-cd backend
+git clone <repository-url>
+cd Codebase
 ```
 
-#### Create a virtual environment (recommended):
+2. Navigate to the desired method directory
 ```bash
-python -m venv .venv
+cd Bisection_Method
+# or
+cd NewtonRaphson_Method
+# or
+cd Secant_Method
 ```
 
-#### Activate the virtual environment:
-- **Windows:**
-  ```bash
-  .venv\Scripts\activate
-  ```
-- **macOS/Linux:**
-  ```bash
-  source .venv/bin/activate
-  ```
-
-#### Install Python dependencies:
+3. Install dependencies
 ```bash
 pip install -r requirements.txt
+# or if using uv
+uv sync
 ```
 
-### 2. Frontend Setup
-
-#### Navigate to the frontend directory:
+4. Run the application
 ```bash
-cd ../frontend
+python main.py
 ```
-
-#### Install Node.js dependencies:
-```bash
-npm install
-```
-
-## Running the Application
-
-### 1. Start the Backend Server
-
-From the `backend` directory:
-```bash
-uvicorn main:app --reload
-```
-
-The backend API will be available at: `http://127.0.0.1:8000`
-
-### 2. Start the Frontend Development Server
-
-From the `frontend` directory:
-```bash
-npm run dev
-```
-
-The frontend application will be available at: `http://localhost:3000`
 
 ## Usage
 
-1. **Open the Application**: Navigate to `http://localhost:3000` in your web browser
+Each application provides a web interface where you can:
 
-2. **Enter Function**: Input a mathematical function using `x` as the variable
-   - Examples: `x**2 - 4`, `sin(x) - 0.5`, `exp(x) - 2`
+1. Input a mathematical function (e.g., x^3 - x - 2)
+2. Set initial parameters (interval or starting points)
+3. Configure tolerance and maximum iterations
+4. Visualize the iterative process
+5. View the calculated root and convergence data
 
-3. **Set Initial Points**: Provide two starting points (x₀ and x₁) for the algorithm
+## Features
 
-4. **Configure Parameters** (optional):
-   - **Tolerance**: Convergence criteria (default: 1e-6)
-   - **Max Iterations**: Maximum number of iterations (default: 100)
+- Interactive web-based interface
+- Real-time visualization of the root-finding process
+- Step-by-step iteration tracking
+- Convergence analysis
+- Support for various mathematical functions
+- Error handling and validation
+- Responsive design
 
-5. **Calculate**: Click the calculate button to find the roots
+## Applications
 
-6. **View Results**: The application will display:
-   - Found root(s)
-   - Number of iterations
-   - Convergence error
-   - Step-by-step iteration data
+These numerical methods are widely used in:
 
-## Supported Mathematical Functions
-
-### Basic Functions
-- `abs(x)` - Absolute value
-- `pow(x, n)` - Power function
-- `sqrt(x)` - Square root
-
-### Trigonometric Functions
-- `sin(x)`, `cos(x)`, `tan(x)`
-- `asin(x)`, `acos(x)`, `atan(x)`
-
-### Hyperbolic Functions
-- `sinh(x)`, `cosh(x)`, `tanh(x)`
-- `asinh(x)`, `acosh(x)`, `atanh(x)`
-
-### Exponential and Logarithmic
-- `exp(x)` - Exponential function
-- `log(x)` - Natural logarithm
-- `log10(x)` - Base-10 logarithm
-- `log2(x)` - Base-2 logarithm
-
-### Constants
-- `pi` - π (3.14159...)
-- `e` - Euler's number (2.71828...)
-
-## API Endpoints
-
-### POST `/api/secant`
-Find roots using the Secant Method.
-
-**Request Body:**
-```json
-{
-  "function": "x**2 - 4",
-  "x0": 1.0,
-  "x1": 3.0,
-  "tolerance": 1e-6,
-  "max_iterations": 100
-}
-```
-
-**Response:**
-```json
-{
-  "root": 2.0,
-  "roots": [2.0],
-  "multiple_roots": false,
-  "num_roots": 1,
-  "iterations": 5,
-  "error": 1e-7,
-  "data": [...],
-  "success": true
-}
-```
-
-### GET `/api/functions`
-Get available mathematical functions and examples.
-
-## Configuration
-
-### Backend Configuration
-The backend runs on http://127.0.0.1:8000 by default. To change this, modify the `uvicorn` command:
-```bash
-uvicorn main:app --reload
-```
-
-### Frontend Configuration
-The frontend runs on port 3000 by default. Next.js will automatically find an available port if 3000 is occupied.
-
-## Example Functions to Try
-
-1. **Quadratic**: `x**2 - 4` (roots at x = ±2)
-2. **Trigonometric**: `sin(x)` (roots at multiples of π)
-3. **Exponential**: `exp(x) - 2` (root at x = ln(2))
-4. **Polynomial**: `x**3 - 2*x - 5` (one real root)
-5. **Transcendental**: `cos(x) - x` (one root ≈ 0.739)
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Backend not starting**: Ensure all dependencies are installed and virtual environment is activated
-2. **Frontend build errors**: Clear node_modules and reinstall: `rm -rf node_modules && npm install`
-3. **CORS errors**: Ensure backend is running and CORS middleware is properly configured
-4. **Function parsing errors**: Check function syntax and use supported mathematical operations
-
-### Error Messages
-- **"Function values at starting points are not finite"**: Choose different starting points
-- **"No roots found"**: Try different starting points or check function syntax
-- **"Division by zero"**: The algorithm encountered a mathematical singularity
-
----
-
-Developed as final coursework for Computational Theory module by Group B.
+- Engineering calculations
+- Scientific computing
+- Optimization problems
+- Equation solving in physics and mathematics
+- Computer graphics and simulations
+- Financial modeling
